@@ -7,7 +7,7 @@
 #' @return dataframe with split columns and original data frame
 
 
-split_column <- function(v,w,x,y,z){
+split_column <- function(v,w,x,y = "firstname",z = "secondname"){
   a <- ""
   elems <- unlist(strsplit(v[,w], paste0(a,x) ) )
   m <- data.frame(matrix(elems, ncol = 2 , byrow = TRUE), stringsAsFactors = FALSE)
