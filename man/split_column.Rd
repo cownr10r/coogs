@@ -2,9 +2,9 @@
 % Please edit documentation in R/split_column.R
 \name{split_column}
 \alias{split_column}
-\title{Split a column into two columns}
+\title{Split a column into two columns by regex}
 \usage{
-split_column(v, w, x, y, z)
+split_column(v, w, x, y = "firstname", z = "secondname")
 }
 \arguments{
 \item{v}{data frame}
@@ -21,5 +21,5 @@ split_column(v, w, x, y, z)
 dataframe with split columns and original data frame
 }
 \description{
-Split a column into two columns
+Split a column into two columns by regex
 }
