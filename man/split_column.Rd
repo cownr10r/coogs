@@ -4,7 +4,7 @@
 \alias{split_column}
 \title{Split a column into two columns by regex}
 \usage{
-split_column(v, w, x, y = "firstname", z = "secondname")
+split_column(v, w, x, y = "lastname", z = "firstname")
 }
 \arguments{
 \item{v}{data frame}
