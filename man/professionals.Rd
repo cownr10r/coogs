@@ -4,10 +4,10 @@
 \alias{professionals}
 \title{Identify professional certs}
 \usage{
-professionals(a = filename)
+professionals(a)
 }
 \arguments{
-\item{a}{= filename}
+\item{a}{file name}
 }
 \value{
 file with only professional certifications
