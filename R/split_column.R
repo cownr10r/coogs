@@ -1,10 +1,11 @@
-#' Split a column into two columns
+#' Split a column into two columns by regex
 #' @param v data frame
 #' @param w column number
 #' @param x regex in quotes
 #' @param y name of first split column
 #' @param z name of second split column
 #' @return dataframe with split columns and original data frame
+#' @export
 
 
 split_column <- function(v,w,x,y = "firstname",z = "secondname"){

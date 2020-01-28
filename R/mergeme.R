@@ -3,6 +3,7 @@
 #' @param d smaller dataset
 #' @param e id field for original datasets in common. Should be surrounded by quotes.
 #' @return a merged set with inner, outer, and all joins.
+#' @export
 mergeme <- function(b,d,e){ #b is larger dataset
   a <- ""
   this <- merge(b,d, all.y = T, by = paste0(a,e))
