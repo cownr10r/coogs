@@ -8,7 +8,7 @@
 #' @export
 
 
-split_column <- function(v,w,x,y = "firstname",z = "secondname"){
+split_column <- function(v,w,x,y = "lastname",z = "firstname"){
   a <- ""
   elems <- unlist(strsplit(v[,w], paste0(a,x) ) )
   m <- data.frame(matrix(elems, ncol = 2 , byrow = TRUE), stringsAsFactors = FALSE)
