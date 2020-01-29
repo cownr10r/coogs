@@ -4,7 +4,7 @@
 \alias{professionals}
 \title{Identify professional certs}
 \usage{
-professionals(a)
+professionals(a = file)
 }
 \arguments{
 \item{a}{file name}
