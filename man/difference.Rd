@@ -2,33 +2,26 @@
 % Please edit documentation in R/difference.R
 \name{difference}
 \alias{difference}
-\title{examine the difference between newer datasets}
+\title{Examine the difference between newer datasets}
 \usage{
-difference(
-  a = smaller_datafile,
-  b = larger_datafile,
-  d = column_number_for_id_1,
-  p = column_for_id_2,
-  m = column_for_index1,
-  n = column_number_for_index_2
-)
+difference(a, b, d, e, f, g)
 }
 \arguments{
-\item{a}{smaller data frame}
+\item{a}{smaller datafile}
 
-\item{b}{larger data frame}
+\item{b}{larger datafile}
 
-\item{d}{column number for first data frame ID}
+\item{d}{column number for ID 1}
 
-\item{p}{column number for second data frame ID}
+\item{e}{column number for ID 2}
 
-\item{m}{column number for first index number}
+\item{f}{column number for index 1}
 
-\item{n}{column number for second index number}
+\item{g}{columnn number for index 2}
 }
 \value{
-a data set of rows that remain after comparison
+the columns that remain
 }
 \description{
-examine the difference between newer datasets
+Examine the difference between newer datasets
 }
