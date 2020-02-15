@@ -4,23 +4,15 @@
 \alias{difference}
 \title{Examine the difference between newer datasets}
 \usage{
-difference(a, b, d, e, f, g)
+difference(a, b)
 }
 \arguments{
 \item{a}{smaller datafile}
 
 \item{b}{larger datafile}
-
-\item{d}{column number for ID 1}
-
-\item{e}{column number for ID 2}
-
-\item{f}{column number for index 1}
-
-\item{g}{columnn number for index 2}
 }
 \value{
-the columns that remain
+the row differences that remain
 }
 \description{
 Examine the difference between newer datasets
