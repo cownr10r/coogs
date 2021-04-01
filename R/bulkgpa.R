@@ -3,14 +3,13 @@
 #' @param b fransfer hours file from peoplesoft
 #' @param d UH courses file from peoplesoft
 #' @param e Content subjects
-#' @return summary of gpa and summary of hours taken
+#' @return content and cumulative gpa and summary of cumulative and content hours taken
 #' @examples
-#' bulkgpa(a,b,d)
+#' bulkgpa(a,b,d, "core-ec-6")
 #' @export
 
 
 bulkgpa <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_courses, e = content_areas){
-
 
   library(readxl)
   library(magrittr)
@@ -57,7 +56,6 @@ bulkgpa <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_c
 
   tr7 <- merge(fin, totals, by = "ID", all.x = TRUE)
 
-
   ifelse(e == "core-ec-6",   final1 <- final[grepl("ENGL|MATH|BCHM|BIOL|CHEM|GEOL|PHYS|ANTH|ECON|GEOG|HIST|POLS|PSYC|SOC|ARED|ART|ARTH|MUAP|MUED|MUSA|MUSI|DAN|THEA|KIN|PEB|HLT|NUTR", final$Subject),],
          ifelse(e == "art-ec-12",  final1 <- final[grepl("ART|ARED|ARTH", final$Subject),],
                 ifelse(e == "dance-6-12", final1 <- final[grepl("DAN", final$Subject),],
@@ -76,19 +74,20 @@ bulkgpa <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_c
                                                                                                            ifelse(e == "sped-ec-12", final1 <- final[grepl("EPSY|SPEC|ENGL|MATH|BCHM|BIOL|CHEM|GEOL|PHYS|ANTH|ECON|GEOG|HIST|POLS|PSYC|SOC|ARED|ART|ARTH|MUAP|MUED|MUSA|MUSI|DAN|THEA|KIN|PEB|HLT|NUTR", final$Subject),],
                                                                                                                   ifelse(e=="journalism", final1 <- final[grepl("COMM", final$Subject),], NA)))))))))))))))))
 
-#this may need to get worked on
-
- final1 <-  ifelse(e == "core-ec-6|math-4-8", final[grepl("MATH", final$Subject),] %>% .[grepl("2320", final$Catalog),] %>% data.frame(rbind(final1,.)),final1)
-
 
 
   ### add in cuin2320 for math 4-8, and core subjects
 
-  final1$Grade_pt_p_unit <- final1$Grade_pt_p_unit %>% as.numeric()
+  if(e == "core-ec-6||math-4-8") {final2 <- final[grepl("MATH", final$Subject),] %>%
+    .[grepl("2320", .$Catalog),]}
 
-  final1$Unit.Taken <- final1$Unit.Taken %>% as.numeric()
+  final3 <- data.frame(rbind(final2,final1))
 
-  fin1 <- final1 %>% dplyr::group_by(ID) %>% dplyr::mutate(grdpt_unit = Unit.Taken * Grade_pt_p_unit)
+  final3$Grade_pt_p_unit <- final3$Grade_pt_p_unit %>% as.numeric()
+
+  final3$Unit.Taken <- final3$Unit.Taken %>% as.numeric()
+
+  fin1 <- final3 %>% dplyr::group_by(ID) %>% dplyr::mutate(grdpt_unit = Unit.Taken * Grade_pt_p_unit)
 
   sumgpu1 <- fin1 %>% dplyr::group_by(ID) %>% dplyr::summarise(sum(grdpt_unit))
 
@@ -102,7 +101,6 @@ bulkgpa <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_c
 
   names(tr71)[2] <- "ContentHOURS"
   names(tr71)[3] <- "ContentGPA"
-
 
   tr8 <- merge(tr7, tr71, by = "ID", all.x = TRUE)
 

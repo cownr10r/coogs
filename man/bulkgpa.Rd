@@ -21,11 +21,11 @@ bulkgpa(
 \item{e}{Content subjects}
 }
 \value{
-summary of gpa and summary of hours taken
+content and cumulative gpa and summary of cumulative and content hours taken
 }
 \description{
 Bulk calculate gpas. Some pre-cleaning in excel may be required.
 }
 \examples{
-bulkgpa(a,b,d)
+bulkgpa(a,b,d, "core-ec-6")
 }
