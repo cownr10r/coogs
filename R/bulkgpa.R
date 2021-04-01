@@ -9,7 +9,7 @@
 #' @export
 
 
-bulkGPA <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_courses, e = content_areas){
+bulkgpa <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_courses, e = content_areas){
 
 
   library(readxl)
@@ -76,6 +76,11 @@ bulkGPA <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_c
                                                                                                            ifelse(e == "sped-ec-12", final1 <- final[grepl("EPSY|SPEC|ENGL|MATH|BCHM|BIOL|CHEM|GEOL|PHYS|ANTH|ECON|GEOG|HIST|POLS|PSYC|SOC|ARED|ART|ARTH|MUAP|MUED|MUSA|MUSI|DAN|THEA|KIN|PEB|HLT|NUTR", final$Subject),],
                                                                                                                   ifelse(e=="journalism", final1 <- final[grepl("COMM", final$Subject),], NA)))))))))))))))))
 
+
+
+  ifelse(e == "core-ec-6|math-4-8", final2 <- final[grepl("MATH", final$Subject),] %>% .[grepl("2320", final$Catalog),], NA)
+
+  final1 <- data.frame(rbind(final1,final2))
 
   ### add in cuin2320 for math 4-8, and core subjects
 
