@@ -78,8 +78,8 @@ bulkgpa <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_c
 
   ### add in cuin2320 for math 4-8, and core subjects
 
-  if(e == "core-ec-6||math-4-8") {final2 <- final[grepl("CUIN", final$Subject),] %>%
-    .[grepl("2320", .$Catalog),]}
+  if(e == "core-ec-6||math-4-8") {final2 <- final[grepl("MATH", final$Subject),] %>%
+    .[grepl("2320", .$Catalog),] %>% .[!duplicated(.[c(4,5)]),]}
 
   final3 <- data.frame(rbind(final2,final1))
 
