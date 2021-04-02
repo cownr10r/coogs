@@ -81,7 +81,7 @@ bulkgpa <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_c
   if(e == "core-ec-6||math-4-8") {final2 <- final[grepl("MATH", final$Subject),] %>%
     .[grepl("2320", .$Catalog),] %>%
     .[order(.$ID, .$Subject$Catalog,.$Grade),] %>%
-    .[!duplicated(.[c(4,5)]),]}
+    .[!duplicated(.[c(1,4,5)]),]}
 
 
 
