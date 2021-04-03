@@ -78,20 +78,26 @@ bulkgpa <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_c
 
   ### add in cuin2320 for math 4-8, and core subjects
 
-  if(e == "core-ec-6||math-4-8") {final2 <- final[grepl("MATH", final$Subject),] %>%
+  if(e == "core-ec-6||math-4-8") {final2 <- final[grepl("CUIN", final$Subject),] %>%
     .[grepl("2320", .$Catalog),] %>%
-    .[order(.$ID, .$Subject$Catalog,.$Grade),] %>%
-    .[!duplicated(.[c(1,4,5)]),]}
+    .[order(.$ID, .$Subject,.$Catalog,.$Grade),] %>%
+        .[!duplicated(.$ID),]}
 
 
 
-  final3 <- data.frame(rbind(final2,final1))
+  final3 <- data.frame(rbind(final2,final1)) %>%
+    .[order(.$ID,.$Subject,.$Catalog),]
 
-  final3$Grade_pt_p_unit <- final3$Grade_pt_p_unit %>% as.numeric()
+final4 <- dplyr::filter(final3, grepl("ENGL", Subject), !grepl("1303|1304", Catalog))
 
-  final3$Unit.Taken <- final3$Unit.Taken %>% as.numeric()
+final5 <- data.frame(rbind(final3,final4)) %>% .[order(.$ID,.$Subject,.$Catalog),]
 
-  fin1 <- final3 %>% dplyr::group_by(ID) %>% dplyr::mutate(grdpt_unit = Unit.Taken * Grade_pt_p_unit)
+
+  final5$Grade_pt_p_unit <- final5$Grade_pt_p_unit %>% as.numeric()
+
+  final5$Unit.Taken <- final5$Unit.Taken %>% as.numeric()
+
+  fin1 <- final5 %>% dplyr::group_by(ID) %>% dplyr::mutate(grdpt_unit = Unit.Taken * Grade_pt_p_unit)
 
   sumgpu1 <- fin1 %>% dplyr::group_by(ID) %>% dplyr::summarise(sum(grdpt_unit))
 
