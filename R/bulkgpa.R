@@ -88,9 +88,11 @@ bulkgpa <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_c
   final3 <- data.frame(rbind(final2,final1)) %>%
     .[order(.$ID,.$Subject,.$Catalog),]
 
+final3a <- dplyr::filter(final3, !grepl("ENGL",Subject))
+
 final4 <- dplyr::filter(final3, grepl("ENGL", Subject), !grepl("1303|1304", Catalog))
 
-final5 <- data.frame(rbind(final3,final4)) %>% .[order(.$ID,.$Subject,.$Catalog),]
+final5 <- data.frame(rbind(final3a,final4)) %>% .[order(.$ID,.$Subject,.$Catalog),]
 
 
   final5$Grade_pt_p_unit <- final5$Grade_pt_p_unit %>% as.numeric()
