@@ -30,13 +30,15 @@ bulkgpa <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_c
     .[rev(order(.$ID,.$Term)),] %>%
     .[!duplicated(.$ID),]
 
-  trans2 <- merge(trans,hours, by = "ID", all.x = TRUE) %>% .[,c("ID", "Name", "Term", "Subject", "Catalog", "Course.Descript", "Unit.Taken", "Grade", "Grade_pt_p_unit","college.Descr")]
+  trans2 <- merge(trans,hours, by = "ID", all.x = TRUE) %>% .[,c("ID", "Name", "Term", "Subject", "Catalog", "Course.Descript", "Unit.Taken", "Grade", "Grade_pt_p_unit","college.Descr")] %>%
+    .[grepl("A|B|C", .$Grade),]
 
   hou <- readxl::read_excel(d, col_types = "text") %>% .[,-8]
 
   colnames(hou) <- c("ID", "Name", "Term", "Subject", "Catalog", "Course.Descript", "Unit.Taken", "Grade", "Grade_pt_p_unit","college.Descr", "Drop.Date")
 
   hou1 <-hou[!(grepl("[[:digit:]]", hou$Drop.Date)),] %>% .[,-11]
+
 
   final <- data.frame(rbind(trans2,hou1)) %>% .[order(.$ID,.$Subject, .$Catalog),]
 
@@ -56,6 +58,9 @@ bulkgpa <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_c
 
   tr7 <- merge(fin, totals, by = "ID", all.x = TRUE)
 
+
+  # Here ends general gpa
+
   ifelse(e == "core-ec-6",   final1 <- final[grepl("ENGL|MATH|BCHM|BIOL|CHEM|GEOL|PHYS|ANTH|ECON|GEOG|HIST|POLS|PSYC|SOC|ARED|ART|ARTH|MUAP|MUED|MUSA|MUSI|DAN|THEA|KIN|PEB|HLT|NUTR", final$Subject),],
          ifelse(e == "art-ec-12",  final1 <- final[grepl("ART|ARED|ARTH", final$Subject),],
                 ifelse(e == "dance-6-12", final1 <- final[grepl("DAN", final$Subject),],
@@ -74,6 +79,7 @@ bulkgpa <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_c
                                                                                                            ifelse(e == "sped-ec-12", final1 <- final[grepl("EPSY|SPEC|ENGL|MATH|BCHM|BIOL|CHEM|GEOL|PHYS|ANTH|ECON|GEOG|HIST|POLS|PSYC|SOC|ARED|ART|ARTH|MUAP|MUED|MUSA|MUSI|DAN|THEA|KIN|PEB|HLT|NUTR", final$Subject),],
                                                                                                                   ifelse(e=="journalism", final1 <- final[grepl("COMM", final$Subject),], NA)))))))))))))))))
 
+  final1 <- final1[order(final1$ID, final1$Subject,final1$Catalog, final1$Grade),] %>% distinct(.$ID, .$Subject, .$Catalog,.$Grade, .keep_all = TRUE)
 
 
   ### add in cuin2320 for math 4-8, and core subjects
