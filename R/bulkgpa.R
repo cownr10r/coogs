@@ -79,7 +79,9 @@ bulkgpa <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_c
                                                                                                            ifelse(e == "sped-ec-12", final1 <- final[grepl("EPSY|SPEC|ENGL|MATH|BCHM|BIOL|CHEM|GEOL|PHYS|ANTH|ECON|GEOG|HIST|POLS|PSYC|SOC|ARED|ART|ARTH|MUAP|MUED|MUSA|MUSI|DAN|THEA|KIN|PEB|HLT|NUTR", final$Subject),],
                                                                                                                   ifelse(e=="journalism", final1 <- final[grepl("COMM", final$Subject),], NA)))))))))))))))))
 
-  final1 <- final1[order(final1$ID, final1$Subject,final1$Catalog, final1$Grade),] %>% distinct(.$ID, .$Subject, .$Catalog,.$Grade, .keep_all = TRUE)
+  final1 <- final1[order(final1$ID, final1$Subject,final1$Catalog, final1$Grade),]
+
+  final1 <- final1 %>% distinct(ID, Subject, Catalog, Grade, .keep_all = TRUE) %>% .[,-c(11,12,13,14)]
 
 
   ### add in cuin2320 for math 4-8, and core subjects
