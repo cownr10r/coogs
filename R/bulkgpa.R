@@ -126,5 +126,6 @@ final5 <- data.frame(rbind(final3a,final4)) %>% .[order(.$ID,.$Subject,.$Catalog
 
   names(tr8)[13] <- "CumulativeHOURS"
   names(tr8)[14] <- "CumulativeGPA"
+  tr8 <- tr8[order(tr8$ID, tr8$Sujbect,tr8$Catalog),]
   return(tr8)
 }
