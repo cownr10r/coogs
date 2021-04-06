@@ -89,7 +89,7 @@ bulkgpa <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_c
   if(e == "core-ec-6||math-4-8") {final2 <- final[grepl("CUIN", final$Subject),] %>%
     .[grepl("2320", .$Catalog),] %>%
     .[order(.$ID, .$Subject,.$Catalog,.$Grade),] %>%
-        .[!duplicated(.$ID),]}
+    .[!duplicated(.$ID),]}
 
 
 
@@ -126,6 +126,6 @@ final5 <- data.frame(rbind(final3a,final4)) %>% .[order(.$ID,.$Subject,.$Catalog
 
   names(tr8)[13] <- "CumulativeHOURS"
   names(tr8)[14] <- "CumulativeGPA"
-  tr8 <- tr8[order(tr8$ID, tr8$Sujbect,tr8$Catalog),]
+  tr8 <- tr8[order(tr8$ID, tr8$Subject,tr8$Catalog),]
   return(tr8)
 }
