@@ -40,7 +40,17 @@ bulkgpa <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_c
   hou1 <-hou[!(grepl("[[:digit:]]", hou$Drop.Date)),] %>% .[,-11]
 
 
-  final <- data.frame(rbind(trans2,hou1)) %>% .[order(.$ID,.$Subject, .$Catalog),]
+  f <- data.frame(rbind(trans2,hou1)) %>% .[order(.$ID,.$Subject, .$Catalog),]
+
+
+  fi <- dplyr::filter(f, !grepl("ENGL",Subject))
+
+  fin <- dplyr::filter(f, grepl("ENGL", Subject), !grepl("1303|1304", Catalog))
+
+  final <- data.frame(rbind(fi,fin)) %>% .[order(.$ID,.$Subject,.$Catalog),]
+
+
+
 
   final$Grade_pt_p_unit <- final$Grade_pt_p_unit %>% as.numeric()
 
@@ -77,7 +87,9 @@ bulkgpa <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_c
                                                                                              ifelse(e =="science", final1 <- final[grepl("BIOL|BCHM|CHEM|GEOL|PHYS", final$Subject),],
                                                                                                     ifelse(e == "social-science", final1 <- final[grepl("HIST|ECON|GEOG|PLS|PSYC|SOC", final$Subject),],
                                                                                                            ifelse(e == "sped-ec-12", final1 <- final[grepl("EPSY|SPEC|ENGL|MATH|BCHM|BIOL|CHEM|GEOL|PHYS|ANTH|ECON|GEOG|HIST|POLS|PSYC|SOC|ARED|ART|ARTH|MUAP|MUED|MUSA|MUSI|DAN|THEA|KIN|PEB|HLT|NUTR", final$Subject),],
-                                                                                                                  ifelse(e=="journalism", final1 <- final[grepl("COMM", final$Subject),], NA)))))))))))))))))
+
+
+                                                                                                                                                                                                                                                                                                                                                ifelse(e=="journalism", final1 <- final[grepl("COMM", final$Subject),], NA)))))))))))))))))
 
   final1 <- final1[order(final1$ID, final1$Subject,final1$Catalog, final1$Grade),]
 
@@ -86,21 +98,22 @@ bulkgpa <- function(a = transfer_courses_file, b = transfer_hours_file, d = UH_c
 
   ### add in cuin2320 for math 4-8, and core subjects
 
-  if(e == "core-ec-6||math-4-8") {final2 <- final[grepl("CUIN", final$Subject),] %>%
+if(e == "core-ec-6") {final2 <- final[grepl("CUIN", final$Subject),] %>%
+    .[grepl("2320", .$Catalog),] %>%
+    .[order(.$ID, .$Subject,.$Catalog,.$Grade),] %>%
+    .[!duplicated(.$ID),]}
+
+  if(e == "math-4-8") {final2 <- final[grepl("CUIN", final$Subject),] %>%
     .[grepl("2320", .$Catalog),] %>%
     .[order(.$ID, .$Subject,.$Catalog,.$Grade),] %>%
     .[!duplicated(.$ID),]}
 
 
+ifelse(e == "core-ec-6", final5 <- data.frame(rbind(final2,final1)) %>%.[order(.$ID,.$Subject,.$Catalog),],
+                ifelse(e == "math-4-8", final3 <- data.frame(rbind(final2,final1)) %>%.[order(.$ID,.$Subject,.$Catalog),],final1))
 
-  final3 <- data.frame(rbind(final2,final1)) %>%
-    .[order(.$ID,.$Subject,.$Catalog),]
-
-final3a <- dplyr::filter(final3, !grepl("ENGL",Subject))
-
-final4 <- dplyr::filter(final3, grepl("ENGL", Subject), !grepl("1303|1304", Catalog))
-
-final5 <- data.frame(rbind(final3a,final4)) %>% .[order(.$ID,.$Subject,.$Catalog),]
+ifelse(e == "core-ec-6", final5,
+    ifelse(e == "math-4-8", final5, final5 <- final1))
 
 
   final5$Grade_pt_p_unit <- final5$Grade_pt_p_unit %>% as.numeric()
