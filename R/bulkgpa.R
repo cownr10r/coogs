@@ -110,7 +110,7 @@ if(e == "core-ec-6") {final2 <- final[grepl("CUIN", final$Subject),] %>%
 
 
 ifelse(e == "core-ec-6", final5 <- data.frame(rbind(final2,final1)) %>%.[order(.$ID,.$Subject,.$Catalog),],
-                ifelse(e == "math-4-8", final3 <- data.frame(rbind(final2,final1)) %>%.[order(.$ID,.$Subject,.$Catalog),],final1))
+                ifelse(e == "math-4-8", final5 <- data.frame(rbind(final2,final1)) %>%.[order(.$ID,.$Subject,.$Catalog),],final1))
 
 ifelse(e == "core-ec-6", final5,
     ifelse(e == "math-4-8", final5, final5 <- final1))
